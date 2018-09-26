@@ -9,11 +9,11 @@ var assert = require('assert');
 
 
 var capabilities = {
-    'browserName': 'chrome'
+    'browserName': 'firefox'
 }
 
 
-var driver = new webdriver.Builder().usingServer('http://10.100.100.228:4444/wd/hub').withCapabilities(capabilities).build();
+var driver = new webdriver.Builder().usingServer('http://localhost:4444/wd/hub').withCapabilities(capabilities).build();
 
 driver.get('https://the-internet.herokuapp.com/javascript_alerts');
 
@@ -36,9 +36,16 @@ driver.findElement({ xpath: '//*[@id="content"]/div/ul/li[3]/button' }).click();
 driver.switchTo().alert().sendKeys("Abhishek");
 driver.switchTo().alert().accept();
 
-var result = driver.findElement({id : 'result'}).getText();
+ driver.findElement({id : 'result'}).getText().then(function(ans){
 
-assert.equal("You entered: Abhishek",result.value_);
+  if(assert.equal("You entered: Abhishek",ans) == undefined)
+  {
+    console.log("Success");
+  }
+
+});
+
+// assert.equal("You entered: Abhishek",result.value_);
 
 
 // Click 'Click for JS Alert'.
